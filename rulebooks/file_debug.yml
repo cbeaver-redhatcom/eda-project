@@ -1,0 +1,15 @@
+- name: Rulebook for remediating file perms
+  hosts: localhost
+  gather_facts: false
+
+  sources:
+    - ansible.eda.file:
+      files:
+        - /tmp/demo.txt
+
+  rules:
+    - name: Debug event
+      condition: event.meta is defined
+      action:
+        debug:
+
