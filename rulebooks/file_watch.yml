@@ -1,0 +1,15 @@
+- name: Ruleset for file watching
+  hosts: all
+  sources:
+    - name: check files
+      ansible.eda.file_watch:
+        recursive: true
+        path: "./"
+  rules:
+    - name: Check if file exists
+      condition: event.file_watch == true
+      action:
+        run_module:
+          name: ansible.builtin.debug
+          module_args:
+            msg: SUCCESS
