@@ -1,0 +1,21 @@
+- name: Rulebook to do something
+  hosts: localhost
+  gather_facts: false
+
+  sources:
+      - ansible.eda.file_watch:
+          path: "files/"
+          recursive: false
+          ignore_regexes: [ '.*\.o' ]
+
+  rules:
+      - name: trigger on range
+        condition: event.change == 'created' # 'modified'
+        action:
+           run_module:
+               name: copy
+               module_args:
+                   src: "{{ event.src_path }}"
+                   dest: "/tmp/files"
+
+# https://jpmens.net/2023/08/14/using-events-to-drive-ansible/
